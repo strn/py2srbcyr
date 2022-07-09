@@ -4,11 +4,11 @@ Python module that transliterates text from Latin to [Cyrillic alphabet](https:/
 
 The module is Python implementation of great Javascript [Ћирилизатор - Cyrillizer](https://github.com/turanjanin/cirilizator).
 
-Модуо за пресловљавање латиничног текста на српску ћирилицу.
+Модул за пресловљавање латиничног текста на српску ћирилицу.
 
 ## Употреба
 
-    import py2srbcyr
+    from py2srbcyr import py2srbcyr
     ...
     cir = py2srbcyr.SerbCyr()
     print(cir.text_to_cyrillic('Zdravo svete!'))
