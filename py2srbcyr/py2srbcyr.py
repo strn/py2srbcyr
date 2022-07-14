@@ -13,7 +13,7 @@ import re
 class SerbCyr:
 
     # Digraphs must be placed first
-    initial_map = {
+    _initial_map = {
         "DJ": "Ђ",
         "DЈ": "Ђ", # D + cyrillic J
         "Dj": "Ђ",
@@ -119,7 +119,7 @@ class SerbCyr:
         "š":  "ш", # s with caron
     }
 
-    serbian_words_with_foreign_character_combinations = [
+    _serbian_words_with_foreign_character_combinations = [
         "ammar",
         "amss",
         "aparthejd",
@@ -173,7 +173,7 @@ class SerbCyr:
         "zoo"
     ]
 
-    common_foreign_words = [
+    _common_foreign_words = [
         "administration",
         "adobe",
         "advanced",
@@ -264,13 +264,14 @@ class SerbCyr:
         "viber"
     ]
 
-    whole_foreign_words = [
+    _whole_foreign_words = [
         "again",
         "air",
         "alpha",
         "and",
         "back",
         "bitcoin",
+        "blue",
         "celebrities",
         "conditions",
         "co2",
@@ -308,7 +309,7 @@ class SerbCyr:
         "visa"
     ]
 
-    foreign_character_combinations = [
+    _foreign_character_combinations = [
         'q',
         'w',
         'x',
@@ -363,6 +364,7 @@ class SerbCyr:
         'sz',
         'tt',
         'uu',
+        'zh',
         'zs',
         'zz',
         'ch',
@@ -381,7 +383,7 @@ class SerbCyr:
         '™'
     ]
 
-    digraph_exceptions = {
+    _digraph_exceptions = {
         "dj": [
             "adjektiv",
             "adjunkt",
@@ -654,7 +656,7 @@ class SerbCyr:
     }
 
     # See: https://en.wikipedia.org/wiki/Zero-width_non-joiner
-    digraph_replacements = {
+    _digraph_replacements = {
         "dj": {
             "dj": "d\u200Cj",
             "Dj": "D\u200Cj",
@@ -677,88 +679,85 @@ class SerbCyr:
             return text
         words = re.split('\s+', text)
         for i in range(len(words)):
-            index = self.transliteration_index_of_word_starts_with(words[i], self.whole_foreign_words, "-")
+            index = self._transliteration_index_of_word_starts_with(words[i], self._whole_foreign_words, "-")
             if index >= 0:
-                words[i] = words[i][:index] + self.word_to_cyrillic(words[i][index:])
+                words[i] = words[i][:index] + self._word_to_cyrillic(words[i][index:])
             else:
-                if not self.looks_like_foreign_word(words[i]):
-                    words[i] = self.word_to_cyrillic(words[i])
+                if not self._looks_like_foreign_word(words[i]):
+                    words[i] = self._word_to_cyrillic(words[i])
         return ' '.join(words)
 
 
-    def looks_like_foreign_word(self, word):
-        trimmed_word = self.trim_excessive_characters(word)
+    def _looks_like_foreign_word(self, word):
+        trimmed_word = self._trim_excessive_characters(word)
         word = trimmed_word.lower()
 
         if word == "":
             return False
 
-        if self.word_starts_with(word, self.serbian_words_with_foreign_character_combinations):
+        if self._word_starts_with(word, self._serbian_words_with_foreign_character_combinations):
             return False
 
-        if self.word_contains_string(word, self.foreign_character_combinations):
+        if self._word_contains_string(word, self._foreign_character_combinations):
             return True
 
-        if self.word_starts_with(word, self.common_foreign_words):
+        if self._word_starts_with(word, self._common_foreign_words):
             return True
 
-        if self.word_is_equal_to(word, self.whole_foreign_words):
+        if self._word_is_equal_to(word, self._whole_foreign_words):
             return True
 
-        if self.word_contains_measurement_unit(trimmed_word):
+        if self._word_contains_measurement_unit(trimmed_word):
             return True
 
         return False
 
 
-    def word_to_cyrillic(self, word):
-        word = self.split_latin_digraphs(word)
-        for key, value in self.initial_map.items():
+    def _word_to_cyrillic(self, word):
+        word = self._split_latin_digraphs(word)
+        for key, value in self._initial_map.items():
             word = word.replace(key, value)
         return word
 
 
-    def split_latin_digraphs(self, str1):
+    def _split_latin_digraphs(self, str1):
         lowercaseStr = str1.strip().lower()
 
-        for digraph in self.digraph_exceptions:
-            #print(f'digraph={digraph}')
+        for digraph in self._digraph_exceptions:
             if not digraph in lowercaseStr:
                 continue
 
-            for word in self.digraph_exceptions[digraph]:
-                #print(f'word={word}')
+            for word in self._digraph_exceptions[digraph]:
                 if not lowercaseStr.startswith(word):
                     continue
 
                 # Split all possible occurrences, regardless of case
-                for key in self.digraph_replacements[digraph]:
-                    str1 = str1.replace(key, self.digraph_replacements[digraph][key])
+                for key in self._digraph_replacements[digraph]:
+                    str1 = str1.replace(key, self._digraph_replacements[digraph][key])
 
                 break
-        #print(f"Splitted word: {str1}")
         return str1
 
 
-    def word_contains_string(self, word, array):
+    def _word_contains_string(self, word, array):
         for array_word in array:
             if array_word in word:
                 return True
         return False
 
-    def word_is_equal_to(self, word, array):
+    def _word_is_equal_to(self, word, array):
         for array_word in array:
             if word == array_word:
                 return True
         return False
 
-    def word_starts_with(self, word, array):
+    def _word_starts_with(self, word, array):
         for array_word in array:
             if word.startswith(array_word):
                 return True
         return False
 
-    def word_contains_measurement_unit(self, word):
+    def _word_contains_measurement_unit(self, word):
         unit_adjacent_to_sth = "([zafpnμmcdhKMGTPEY]?([BVWJFSHCΩATNhlmg]|m[²³]?|s[²]?|cd|Pa|Wb|Hz))"
         unit_optionaly_adjacent_to_sth = "(°[FC]|[kMGTPZY](B|Hz)|[pnμmcdhk]m[²³]?|m[²³]|[mcdh][lg]|kg|km)"
         number = "(\d+([\.,]\d)*)"
@@ -766,7 +765,6 @@ class SerbCyr:
             + number + "?(" + unit_optionaly_adjacent_to_sth + "|" \
             + unit_adjacent_to_sth + "/" + unit_adjacent_to_sth + "))$"
 
-        #print(f"Regexp: {regExp}, {re.match(regExp, word)}")
         return re.match(regExp, word) is not None
 
 
@@ -776,8 +774,8 @@ class SerbCyr:
     some separator character and remainder of the word which is in Serbian.
     Example: dj-evi should be transliterated as dj-еви so the function retrieves 3.
     """
-    def transliteration_index_of_word_starts_with(self, word, array, char_separator):
-        word = self.trim_excessive_characters(word).lower()
+    def _transliteration_index_of_word_starts_with(self, word, array, char_separator):
+        word = self._trim_excessive_characters(word).lower()
         if word == "":
             return -1
 
@@ -791,7 +789,7 @@ class SerbCyr:
 
 
     # Trims white spaces and punctuation marks from the start and the end of the word.
-    def trim_excessive_characters(self, word):
+    def _trim_excessive_characters(self, word):
         excessive_chars = "[\\s!?,:;\.\*\\-—~`'\"„”“”‘’(){}\\[\\]<>«»\\/\\\\]"
         regexp = "^(" + excessive_chars + ")+|(" + excessive_chars + ")+$"
 
