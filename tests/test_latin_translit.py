@@ -20,3 +20,4 @@ class TestClass:
         assert self.cir.text_to_cyrillic('brza vižljasta lija hoće da đipi preko lenjog flegmatičnog džukca.') == 'брза вижљаста лија хоће да ђипи преко лењог флегматичног џукца.'
         assert self.cir.text_to_cyrillic('LJUDI, JAZAVAC DŽEF TRČI PO ŠUMI GLOĐUĆI NEKO SUHO ŽBUNJE!') == 'ЉУДИ, ЈАЗАВАЦ ЏЕФ ТРЧИ ПО ШУМИ ГЛОЂУЋИ НЕКО СУХО ЖБУЊЕ!'
         assert self.cir.text_to_cyrillic('Ðavo je u detaǉima, nĳe da ti Čika Džoš nije rekao?') == 'Ђаво је у детаљима, није да ти Чика Џош није рекао?'
+        assert self.cir.text_to_cyrillic('Srećko') == 'Срећко'
