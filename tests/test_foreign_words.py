@@ -24,3 +24,6 @@ class TestClass:
 
     def test_grenadirmarsh(self):
         assert self.cir.text_to_cyrillic('grenadýrmarš') == 'grenadýrmarš'
+
+    def test_naive(self):
+        assert self.cir.text_to_cyrillic('naïve') == 'naïve'
