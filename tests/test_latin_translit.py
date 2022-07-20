@@ -22,4 +22,8 @@ class TestClass:
         assert self.cir.text_to_cyrillic('Ðavo je u detaǉima, nĳe da ti Čika Džoš nije rekao?') == 'Ђаво је у детаљима, није да ти Чика Џош није рекао?'
 
     def test_translit_double_vowels(self):
-        assert self.cir.text_to_cyrillic('Džoov jednooka neeksplodirana poodrasla') == 'Џоов једноока неексплодирана поодрасла'
+        assert self.cir.text_to_cyrillic('Džoov jednooka crnooka neeksplodirana poodrasla') == \
+            'Џоов једноока црноока неексплодирана поодрасла'
+        assert self.cir.text_to_cyrillic('aerodinamički aerodrom jedanaest') == 'аеродинамички аеродром једанаест'
+        assert self.cir.text_to_cyrillic('dvanaest devetnaest poen ophrvan') == 'дванаест деветнаест поен опхрван'
+        assert self.cir.text_to_cyrillic('poezija Izrael shema') == 'поезија Израел схема'
