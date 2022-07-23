@@ -27,3 +27,6 @@ class TestClass:
         assert self.cir.text_to_cyrillic('aerodinamički aerodrom jedanaest') == 'аеродинамички аеродром једанаест'
         assert self.cir.text_to_cyrillic('dvanaest devetnaest poen ophrvan') == 'дванаест деветнаест поен опхрван'
         assert self.cir.text_to_cyrillic('poezija Izrael shema') == 'поезија Израел схема'
+
+    def test_translit_serbian_exceptions_1(self):
+        assert self.cir.text_to_cyrillic('intervjuu ishitrena neefikasna rashlađen rashladni statuu vakuumiran ushit') == 'интервјуу исхитрена неефикасна расхлађен расхладни статуу вакуумиран усхит'
