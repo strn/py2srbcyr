@@ -28,5 +28,9 @@ class TestClass:
         assert self.cir.text_to_cyrillic('dvanaest devetnaest poen ophrvan') == 'дванаест деветнаест поен опхрван'
         assert self.cir.text_to_cyrillic('poezija Izrael shema') == 'поезија Израел схема'
 
-    def test_translit_serbian_exceptions_1(self):
+    def test_translit_intervjuu_ishit_neefi_rashla_statuu_ushit(self):
         assert self.cir.text_to_cyrillic('intervjuu ishitrena neefikasna rashlađen rashladni statuu vakuumiran ushit') == 'интервјуу исхитрена неефикасна расхлађен расхладни статуу вакуумиран усхит'
+
+    def test_translit_snishod_shvat_shvaty_kontinuum_pasha(self):
+        assert self.cir.text_to_cyrillic('snishodljiv shvatam shvatio shvaćam kontinuumu Pasha Pashu') == \
+            'снисходљив схватам схватио схваћам континууму Пасха Пасху'

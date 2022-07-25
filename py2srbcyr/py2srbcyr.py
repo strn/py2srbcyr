@@ -123,6 +123,7 @@ class SerbCyr:
         "ammar",
         "amss",
         "aparthejd",
+        "celishod",
         "ddor",
         "dss",
         "dvadesettrog",
@@ -136,6 +137,7 @@ class SerbCyr:
         "ishod",
         "ishran",
         "izzzdiovns",
+        "kontinuum",
         "kss",
         "liker",
         "llsls",
@@ -154,6 +156,7 @@ class SerbCyr:
         "ophrva",
         "othrama",
         "othuknu",
+        "pash", # Pasha, jev.
         "penthaus",
         "poddirektor",
         "poddisciplin",
@@ -171,7 +174,7 @@ class SerbCyr:
         "prevashod",
         "ptt",
         "punkt",
-        "rashla",
+        "rashla", # rashladni, rashladjivanje
         "rashod",
         "sbb",
         "sdss",
@@ -180,6 +183,7 @@ class SerbCyr:
         "shvać",
         "shvat",
         "skocka",
+        "snishod", # snishodljliv
         "ssp",
         "ssrnj",
         "sssr",
