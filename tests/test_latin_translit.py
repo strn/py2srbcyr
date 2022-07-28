@@ -34,3 +34,11 @@ class TestClass:
     def test_translit_snishod_shvat_shvaty_kontinuum_pasha(self):
         assert self.cir.text_to_cyrillic('snishodljiv shvatam shvatio shvaćam kontinuumu Pasha Pashu') == \
             'снисходљив схватам схватио схваћам континууму Пасха Пасху'
+
+    def test_obeshrab_metjuu_ushicen_brushalter_alchajmerom(self):
+        assert self.cir.text_to_cyrillic('obeshrabrenom ushićenom pedesettrogodišnjem Metjuu brushalter Alchajmerom') == \
+            'обесхрабреном усхићеном педесеттрогодишњем Метјуу брусхалтер Алцхајмером'
+
+    def test_43godisnji(self):
+        assert self.cir.text_to_cyrillic('tridesettrogodiš četrdesettrogodišnji devedesettrogodiš') == \
+            'тридесеттрогодиш четрдесеттрогодишњи деведесеттрогодиш'
