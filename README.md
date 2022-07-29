@@ -8,9 +8,9 @@ The module is Python implementation of great Javascript [Ћирилизатор 
 
 ## Употреба
 
-    from py2srbcyr import py2srbcyr
+    from py2srbcyr import SerbCyr
     ...
-    cir = py2srbcyr.SerbCyr()
+    cir = SerbCyr()
     print(cir.text_to_cyrillic('Zdravo svete!'))
 
 ## Тестирање

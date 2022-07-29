@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import py2srbcyr.py2srbcyr
+import py2srbcyr
 
 
 class TestClass:
 
     def setup_class(self):
-        self.cir = py2srbcyr.py2srbcyr.SerbCyr()
+        self.cir = py2srbcyr.SerbCyr()
 
     def test_words_w_foreign_chars_wont_be_transliterated(self):
         assert self.cir.text_to_cyrillic('Biografiju pošaljite kao Word dokument u docx formatu za Über Yahu.') == 'Биографију пошаљите као Word документ у docx формату за Über Yahu.'

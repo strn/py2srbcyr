@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import py2srbcyr.py2srbcyr
+from py2srbcyr import SerbCyr
 
 
 class TestClass:
 
     def setup_class(self):
-        self.cir = py2srbcyr.py2srbcyr.SerbCyr()
+        self.cir = SerbCyr()
 
     def test_correct_transliteration_of_latin_digraphs(self):
         assert self.cir.text_to_cyrillic('Odjednom Tanjug reče da će nadživeti injekciju. Dodjavola, džangrizava njuška je bila u pravu.') == 'Од‌једном Тан‌југ рече да ће над‌живети ин‌јекцију. Дођавола, џангризава њушка је била у праву.'
@@ -42,3 +42,7 @@ class TestClass:
     def test_43godisnji(self):
         assert self.cir.text_to_cyrillic('tridesettrogodiš četrdesettrogodišnji devedesettrogodiš') == \
             'тридесеттрогодиш четрдесеттрогодишњи деведесеттрогодиш'
+
+    def test_sounds_scratches(self):
+        assert self.cir.text_to_cyrillic('ŠKRRRRRR veeelike Isssuse dosjee hm 1hm') == \
+            'ШКРРРРРР вееелике Исссусе досјее хм 1hm'

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py2srbcyr"
-version = "1.1.0"
+version = "1.1.1"
 authors = [
   { name="Strana (eng: Page)", email="zcprog+pypi@pm.me" },
 ]
@@ -19,5 +19,5 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/strn/py2srbcyr"
+homepage = "https://github.com/strn/py2srbcyr"
 "Bug Tracker" = "https://github.com/strn/py2srbcyr/issues"
