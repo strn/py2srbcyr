@@ -44,5 +44,9 @@ class TestClass:
             'тридесеттрогодиш четрдесеттрогодишњи деведесеттрогодиш'
 
     def test_sounds_scratches(self):
-        assert self.cir.text_to_cyrillic('ŠKRRRRRR veeelike Isssuse dosjee hm 1hm') == \
-            'ШКРРРРРР вееелике Исссусе досјее хм 1hm'
+        assert self.cir.text_to_cyrillic('ŠKRRRRRR veeelike Isssuse dosjee hm 1hm hiperrealizam') == \
+            'ШКРРРРРР вееелике Исссусе досјее хм 1hm хиперреализам'
+
+    def test_roman_numerals(self):
+        assert self.cir.text_to_cyrillic('i ii iii iv v vi vii viii ix x xi xii xiii xiv xv xvi xvii xviii xix xx') == \
+            'и ii iii iv v ви vii viii ix x xi xii xiii xiv xv xvi xvii xviii xix xx'
