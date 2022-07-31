@@ -50,3 +50,9 @@ class TestClass:
     def test_roman_numerals(self):
         assert self.cir.text_to_cyrillic('i ii iii iv v vi vii viii ix x xi xii xiii xiv xv xvi xvii xviii xix xx') == \
             'и ii iii iv v ви vii viii ix x xi xii xiii xiv xv xvi xvii xviii xix xx'
+
+    def test_line_breaks(self):
+        cirt = """Први ред?
+Други ред!
+Трећи ред..."""
+        assert self.cir.text_to_cyrillic("Prvi red?\nDrugi red!\nTreći red...") == cirt
