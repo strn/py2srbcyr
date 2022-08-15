@@ -22,8 +22,5 @@ class TestClass:
     def test_prslook_prekookeanski(self):
         assert self.cir.text_to_cyrillic('prslook prekookeanski') == 'prslook прекоокеански'
 
-    def test_grenadirmarsh(self):
-        assert self.cir.text_to_cyrillic('grenadýrmarš') == 'grenadýrmarš'
-
-    def test_naive(self):
-        assert self.cir.text_to_cyrillic('naïve') == 'naïve'
+    def test_grenadirmarsh_naive_cd(self):
+        assert self.cir.text_to_cyrillic('grenadýrmarš naïve cd') == 'grenadýrmarš naïve cd'
