@@ -57,5 +57,5 @@ class TestClass:
 Трећи ред..."""
         assert self.cir.text_to_cyrillic("Prvi red?\nDrugi red!\nTreći red...") == cirt
 
-    def test_polushva(self):
-        assert self.cir.text_to_cyrillic("polushvaćen") == "полусхваћен"
+    def test_polushva_lufthanza(self):
+        assert self.cir.text_to_cyrillic("polushvaćen Lufthanza") == "полусхваћен Луфтханза"
