@@ -28,6 +28,13 @@ exclude = [
   "/rpmspec"
 ]
 
+[tool.pytest]
+minversion = "9.0"
+testpaths = [
+  "tests"
+]
+pythonpath = ["src"]
+
 [dependency-groups]
 dev = [
     "check-wheel-contents>=0.6.3",

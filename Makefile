@@ -13,12 +13,12 @@ bdist: release clean
 	$(info -> Makefile: building the bdist distribution package ...)
 	@(	uv build && \
 		uv add --dev check-wheel-contents && \
-		uv run check-wheel-contents dist/*.whl)
+		uv run check-wheel-contents dist/*.whl )
 
 rpm: bdist
 	$(info -> Makefile: packaging as RPM ...)
 	[ -d ~/rpmbuild ] || mkdir ~/rpmbuild
 	[ -d ~/rpmbuild/SOURCES ] || mkdir ~/rpmbuild/SOURCES
 	[ -d ~/rpmbuild/SPECS ] || mkdir ~/rpmbuild/SPECS
-	mv -f dist/py2srbcyr-${RELEASE}.tar.gz ~/rpmbuild/SOURCES/
+	mv -f dist/py2srbcyr-${RELEASE}* ~/rpmbuild/SOURCES/
 	rpmbuild --define "_version ${RELEASE}" -bb rpmspec/py2srbcyr.spec

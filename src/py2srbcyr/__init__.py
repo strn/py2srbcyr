@@ -346,7 +346,7 @@ class SerbCyr:
     def text_to_cyrillic(self, text):
         if len(text.strip()) == 0:
             return text
-        words = re.findall('\S+|\r\n|\n', text)
+        words = re.findall(r'\S+|\r\n|\n', text)
 
         for i in range(len(words)):
             if words[i] in self.C_LINE_ENDINGS:
@@ -442,7 +442,7 @@ class SerbCyr:
         # Removed prefix "h" (hecto-) for meters to allow transliteration of "hm", which is
         # expression of confusion in Serbian language
         unit_optionaly_adjacent_to_sth = "(°[FC]|[kMGTPZY](B|Hz)|[pnμmcdk]m[²³]?|m[²³]|[mcdh][lg]|kg|km)"
-        number = "(\d+([\.,]\d)*)"
+        number = r"(\d+([\.,]\d)*)"
         regExp = "^(" + number + unit_adjacent_to_sth + ")|(" \
             + number + "?(" + unit_optionaly_adjacent_to_sth + "|" \
             + unit_adjacent_to_sth + "/" + unit_adjacent_to_sth + "))$"
@@ -473,6 +473,6 @@ class SerbCyr:
     # Trims white spaces and punctuation marks from the start and the end of the word.
     def _trim_excessive_characters(self, word):
         excessive_chars = "[\\s!?,:;\.\*\\-—~`'\"„”“”‘’(){}\\[\\]<>«»\\/\\\\]"
-        regexp = "^(" + excessive_chars + ")+|(" + excessive_chars + ")+$"
+        regexp = fr"^({excessive_chars})+|({excessive_chars})+$"
 
         return re.sub(regexp, '', word)
