@@ -1,42 +1,35 @@
-%global version 1.1.2
+%global         srcname py2srbcyr
 
-Name:           python3-py2srbcyr
-Version:        %{version}
+Name:           python3-%{srcname}
+Version:        %{_version}
 Release:        1%{?dist}
 Summary:        Python module that transliterates text from Croatian Latin to Serbian Cyrillic alphabet
 
-License:        LGPL-3.0
+License:        LGPLv3+
 URL:            https://github.com/strn/py2srbcyr
-Source:         %{url}/archive/v%{version}/...-%{version}.tar.gz / %{pypi_source ...}
+Source0:        %{srcname}-%{version}.tar.gz    
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
+Requires:       python3
+Provides:       python3-%{srcname}
 
 %description
 Python module that transliterates text from Croatian Latin to Serbian Cyrillic alphabet.
 The module is Python implementation of great Javascript Ћирилизатор - Cyrillizer.
 
-
 %prep
-%autosetup -p1 -n %{name}-%{version}
-
-
-%generate_buildrequires
-%pyproject_buildrequires -x... / -g... / -t
-
+%autosetup -n %{srcname}-%{_version}
 
 %build
-%pyproject_wheel
-
-
-%install
-%pyproject_install
-%pyproject_save_files ...
-
+unset RPM_BUILD_ROOT
+%{__python3} -m compileall .
+ls -lR
 
 %check
-%pytest
-
+cd "%{_builddir}/%{srcname}-%{_version}"
+unset RPM_BUILD_ROOT
+%{__python3} -m pytest
 
 %files -n %{name} -f %{pyproject_files}
 %doc README.*
@@ -44,5 +37,5 @@ The module is Python implementation of great Javascript Ћирилизатор -
 
 
 %changelog
-* Sun Aug 02 2026 Simone Caronni <negativo17@gmail.com> - 1.1.2-1
+* Sun Aug 02 2026 Strana <zcprog+git> - 1.1.2-1
 - Initial package
