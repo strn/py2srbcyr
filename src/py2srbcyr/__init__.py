@@ -313,12 +313,14 @@ class SerbCyr:
         self._whole_foreign_words = self._read_list_from_file(os.path.join(abspath,
             'whole_foreign_words.txt'))
         self._digraph_exceptions = dict()
-        self._digraph_exceptions['nj'] = self._read_list_from_file(os.path.join(abspath,
-            'nj_digraph_exceptions.txt'))
-        self._digraph_exceptions['dj'] = self._read_list_from_file(os.path.join(abspath,
-            'dj_digraph_exceptions.txt'))
-        self._digraph_exceptions['dž'] = self._read_list_from_file(os.path.join(abspath,
-            'dzh_digraph_exceptions.txt'))
+        self._digraph_exceptions['lj'] = self._read_list_from_file(
+            os.path.join(abspath, 'lj_digraph_exceptions.txt'))
+        self._digraph_exceptions['nj'] = self._read_list_from_file(
+            os.path.join(abspath, 'nj_digraph_exceptions.txt'))
+        self._digraph_exceptions['dj'] = self._read_list_from_file(
+            os.path.join(abspath, 'dj_digraph_exceptions.txt'))
+        self._digraph_exceptions['dž'] = self._read_list_from_file(
+            os.path.join(abspath, 'dzh_digraph_exceptions.txt'))
 
 
     # Read files with word lists

@@ -1,5 +1,6 @@
 feldžandarm
 nadžanj
+nadžanr
 nadždrel
 nadžel
 nadžeo
@@ -12,13 +13,13 @@ nadžup
 odžali
 odžari
 odžel
-odžive
-odživljava
+odživ
 odžubor
 odžvaka
 odžval
 odžvać
 podžanr
+podžargon
 podžel
 podže
 podžig
@@ -27,4 +28,5 @@ podžil
 podžnje
 podžupan
 predželu
+predžetven
 predživot
