@@ -2,7 +2,8 @@ RELEASE = 1.1.4
 
 clean:
 	$(info -> Makefile: cleanup previous builds ... )
-	@(rm -rf dist build .venv uv.lock)
+	@(rm -rf dist build .venv uv.lock ~/rpmbuild/SOURCES/plugin-{gedit,sigil} \
+		~/rpmbuild/SOURCES/py2srbcyr* ~/rpmbuild/SOURCES/py2crolat*)
 
 release:
 	$(info -> Makefile: validating RELEASE=${RELEASE} format)
@@ -22,4 +23,5 @@ rpm: bdist
 	[ -d ~/rpmbuild/SPECS ] || mkdir ~/rpmbuild/SPECS
 	mv -f dist/py2srbcyr-${RELEASE}* ~/rpmbuild/SOURCES/
 	cp -f cli/*.py ~/rpmbuild/SOURCES/
+	cp -r plugin-gedit plugin-sigil ~/rpmbuild/SOURCES/
 	rpmbuild --define "_version ${RELEASE}" -bb rpmspec/py2srbcyr.spec

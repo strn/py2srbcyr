@@ -1,0 +1,9 @@
+[Plugin]
+Loader=python3
+Module=py2srbcyr
+IAge=3
+Name=Latin To Cyrillic Transliterator
+Description=Transliterates text from Croatian Latin into Serbian Cyrillic script
+Authors=Github Page <zcprog+github@pm.me>
+Copyright=Copyright © 2022 Github Page <zcprog+github@pm.me>
+Website=https://github.com/strn/py2srbcyr/tree/main/plugin-gedit

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging, sys
-from . import serbcyr
+import py2srbcyr
 import gi
 
 gi.require_version('Gtk', '3.0')
@@ -95,7 +95,7 @@ class Lat2CyrViewActivatable(GObject.Object, Gedit.ViewActivatable):
 
     def __init__(self):
         self.popup_handler_id = 0
-        self.cyr = serbcyr.SerbCyr()
+        self.cyr = py2srbcyr.SerbCyr()
         GObject.Object.__init__(self)
 
 
@@ -153,7 +153,6 @@ class Lat2CyrViewActivatable(GObject.Object, Gedit.ViewActivatable):
     def lat2cyr(self, document):
         start, end = document.get_selection_bounds()
         text = document.get_text(start, end, False)
-        #logging.debug(f"{__name__} view: lat2cyr text='{text}'")
         document.begin_user_action()
         document.delete(start, end)
         document.insert(start, self.cyr.text_to_cyrillic(text))
@@ -163,7 +162,6 @@ class Lat2CyrViewActivatable(GObject.Object, Gedit.ViewActivatable):
     def cyr2lat(self, document):
         start, end = document.get_selection_bounds()
         text = document.get_text(start, end, False)
-        #logging.debug(f"{__name__} view: cyr2lat text='{text}'")
         document.begin_user_action()
         document.delete(start, end)
         document.insert(start, self.cyr.text_to_latin(text))
