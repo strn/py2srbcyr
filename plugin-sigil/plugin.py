@@ -4,12 +4,12 @@
 
 from   datetime  import datetime
 from   lxml      import etree
-import lib.py2srbcyr as pycir
 import platform
+import py2srbcyr
 
 
 # Global variables
-MODNAME = 'Lat2Cyr'
+MODNAME = 'Py2SrbCyr'
 # HTML tags that can contain text requireing transliteration
 HTML_TAGS = ('a', 'div', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'img', 'p', 'br', 'b', 'i', 'em', 'span', 'sub', 'sup', 'title', 'th', 'td', 'li', 'strong', 'u')
 GLOBAL_HTML4_ATTRS = ('accesskey', 'class', 'dir', 'id', 'lang', 'style', 'tabindex', 'title',)
@@ -177,7 +177,7 @@ def translit_pages(bk, html_parser, cyr):
         source = bk.readfile(id)
         transliterated = html_lat2cyr(source, cyr, HTML_DOCTYPE, html_parser)
         bk.writefile(id, transliterated)
-        print("Пресловљена датотека '%s'" % (href))
+        print(f"Пресловљена датотека '{href}'")
 
 
 def show_system_info(launcher_version, epub_version):
@@ -190,7 +190,7 @@ def show_system_info(launcher_version, epub_version):
     print("*******")
 
 def run(bk):
-    cyr = pycir.SerbCyr()
+    cyr = py2srbcyr.SerbCyr()
     html_parser = etree.HTMLParser(remove_blank_text=True, remove_comments=False, encoding='utf-8')
     xml_parser = etree.XMLParser(remove_blank_text=True, remove_comments=False, resolve_entities=False, encoding='utf-8')
 
@@ -206,7 +206,7 @@ def run(bk):
     translit_metadata(bk, xml_parser, cyr)
     translit_pages(bk, html_parser, cyr)
     end = datetime.now()
-    print("Трајање пресловљавања: %f секунди" % (end - start).total_seconds())
+    print(f"Трајање пресловљавања: {(end - start).total_seconds()} секунди")
     return 0
 
 

@@ -1,4 +1,4 @@
-RELEASE = 1.1.4
+RELEASE = 1.1.5
 
 clean:
 	$(info -> Makefile: cleanup previous builds ... )
@@ -24,4 +24,6 @@ rpm: bdist
 	mv -f dist/py2srbcyr-${RELEASE}* ~/rpmbuild/SOURCES/
 	cp -f cli/*.py ~/rpmbuild/SOURCES/
 	cp -r plugin-gedit plugin-sigil ~/rpmbuild/SOURCES/
+	sed -i -e "s/#VERSIONPLACEHOLDER#/${RELEASE}/g" \
+		~/rpmbuild/SOURCES/plugin-sigil/plugin.xml
 	rpmbuild --define "_version ${RELEASE}" -bb rpmspec/py2srbcyr.spec

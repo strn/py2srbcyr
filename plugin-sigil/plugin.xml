@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
-    <name>lat2cyr</name>
+    <name>py2srbcyr</name>
     <type>edit</type>
-    <author>Puramoca021</author>
+    <author>Zoltan Csala</author>
     <description>Converts Croatian Latin script to Serbian Cyrillic</description>
     <engine>python3.4</engine>
     <version>#VERSIONPLACEHOLDER#</version>

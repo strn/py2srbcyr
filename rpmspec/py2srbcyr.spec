@@ -32,7 +32,9 @@ unset RPM_BUILD_ROOT
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 mkdir %{buildroot}
 cd "%{_sourcedir}"
-mkdir -p %{buildroot}%{_bindir} %{buildroot}/usr/lib64/gedit/plugins/%{srcname}
+mkdir -p %{buildroot}%{_bindir} \
+    %{buildroot}/usr/lib64/gedit/plugins/%{srcname} \
+    %{buildroot}/usr/share/sigil/plugins/%{srcname}
 cp %{srcname}.py %{buildroot}%{_bindir}/%{srcname}
 cp py2crolat.py %{buildroot}%{_bindir}/py2crolat
 %{__python3} -m pip install --target %{buildroot}%{python3_sitelib} %{srcname}-%{_version}-py3-none-any.whl
@@ -40,7 +42,12 @@ cp py2crolat.py %{buildroot}%{_bindir}/py2crolat
 cp plugin-gedit/%{srcname}.plugin %{buildroot}/usr/lib64/gedit/plugins/
 cp plugin-gedit/__init__.py %{buildroot}/usr/lib64/gedit/plugins/%{srcname}
 %{__python3} -m compileall %{buildroot}/usr/lib64/gedit/plugins/%{srcname}/__init__.py
-# Copy Sigil plugin files
+# Install Sigil plugin files
+cd plugin-sigil
+cp README.md LICENSE plugin* %{buildroot}/usr/share/sigil/plugins/%{srcname}
+cd %{buildroot}/usr/share/sigil/plugins/
+zip %{srcname}_%{_version}.zip -r %{srcname}
+rm -rf %{srcname}
 
 %files
 %defattr(644, root, root, 755)
@@ -72,13 +79,17 @@ Requires:       python3-%{srcname}
 %{?python_provide:%python_provide python3-%{srcname}-plugin-sigil}
 
 %description -n python3-%{srcname}-plugin-sigil
-Sigil plugin. Croatian Latin script to Serbian Cyrillic script transliterator.
+Sigil plugin for Croatian Latin script to Serbian Cyrillic script transliteration.
 
 %files -n python3-%{srcname}-plugin-sigil
 %defattr(644, root, root, 755)
+/usr/share/sigil/plugins/%{srcname}_%{_version}.zip
 
 %changelog
-* Fri Aug 28 2026 Strana <zcprog+git> - 1.1.3-1
+* Fri Aug 28 2026 Strana <zcprog+git> - 1.1.5-1
+- Added Sigil plugin package
+
+* Fri Aug 28 2026 Strana <zcprog+git> - 1.1.4-1
 - Added Gedit plugin package
 
 * Fri Aug 28 2026 Strana <zcprog+git> - 1.1.3-1
