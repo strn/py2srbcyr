@@ -9,6 +9,7 @@ License:        LGPLv3+
 URL:            https://github.com/strn/py2srbcyr
 Source0:        %{srcname}-%{version}.tar.gz
 Source1:        %{srcname}-%{version}-py3-none-any.whl
+Source2:        %{srcname}.py
 
 BuildArch:      noarch
 BuildRequires:  python3-devel
@@ -32,14 +33,23 @@ unset RPM_BUILD_ROOT
 mkdir %{buildroot}
 cd "%{_sourcedir}"
 ls -l
+mkdir -p %{buildroot}%{_bindir}
+cp %{srcname}.py %{buildroot}%{_bindir}/%{srcname}
+cp py2crolat.py %{buildroot}%{_bindir}/py2crolat
 %{__python3} -m pip install --target %{buildroot}%{python3_sitelib} %{srcname}-%{_version}-py3-none-any.whl
 
 %files
+%defattr(644, root, root, 755)
 %{python3_sitelib}/%{srcname}/__init__.py
 %{python3_sitelib}/%{srcname}/*.txt
 %{python3_sitelib}/%{srcname}/__pycache__/__init__*pyc
 %{python3_sitelib}/%{srcname}-%{version}.dist-info/*
+%attr(755, root, root) %{_bindir}/%{srcname}
+%attr(755, root, root) %{_bindir}/py2crolat
 
 %changelog
+* Fri Aug 28 2026 Strana <zcprog+git> - 1.1.3-1
+- Added command line scripts
+
 * Sun Aug 02 2026 Strana <zcprog+git> - 1.1.2-1
 - Initial package

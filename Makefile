@@ -1,4 +1,4 @@
-RELEASE = 1.1.2
+RELEASE = 1.1.3
 
 clean:
 	$(info -> Makefile: cleanup previous builds ... )
@@ -21,4 +21,5 @@ rpm: bdist
 	[ -d ~/rpmbuild/SOURCES ] || mkdir ~/rpmbuild/SOURCES
 	[ -d ~/rpmbuild/SPECS ] || mkdir ~/rpmbuild/SPECS
 	mv -f dist/py2srbcyr-${RELEASE}* ~/rpmbuild/SOURCES/
+	cp -f cli/*.py ~/rpmbuild/SOURCES/
 	rpmbuild --define "_version ${RELEASE}" -bb rpmspec/py2srbcyr.spec
