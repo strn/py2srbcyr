@@ -324,7 +324,7 @@ class SerbCyr:
 
 
     # Read files with word lists
-    def _read_list_from_file(self, filepath):
+    def _read_list_from_file(self, filepath: str):
         with open(filepath, 'r') as f:
             tmplist = f.read().splitlines()
             for elem in tmplist:
@@ -333,7 +333,7 @@ class SerbCyr:
             return [line.replace(' ', '') for line in tmplist]
 
 
-    def _join(self, stri):
+    def _join(self, stri) -> str:
         s = ''
         for word in stri:
             if word not in self.C_LINE_ENDINGS:
@@ -344,30 +344,7 @@ class SerbCyr:
         return s.strip(' ')
 
 
-    # Main method that converts Latin text to Cyrillic
-    def text_to_cyrillic(self, text):
-        if len(text.strip()) == 0:
-            return text
-        words = re.findall(r'\S+|\r\n|\n', text)
-
-        for i in range(len(words)):
-            if words[i] in self.C_LINE_ENDINGS:
-                continue
-            index = self._transliteration_index_of_word_starts_with(words[i], self._whole_foreign_words, "-")
-            if index >= 0:
-                words[i] = words[i][:index] + self._word_to_cyrillic(words[i][index:])
-            else:
-                if not self._looks_like_foreign_word(words[i]):
-                    words[i] = self._word_to_cyrillic(words[i])
-        
-        return self._join(words)
-
-
-    def text_to_latin(self, text):
-        return self.lat_regex.sub(lambda match: self._cyrillic_to_latin[match.group(0)], text)
-
-
-    def _looks_like_foreign_word(self, word):
+    def _looks_like_foreign_word(self, word: str) -> bool:
         trimmed_word = self._trim_excessive_characters(word)
         word = trimmed_word.lower()
 
@@ -395,14 +372,14 @@ class SerbCyr:
         return False
 
 
-    def _word_to_cyrillic(self, word):
+    def _word_to_cyrillic(self, word) -> str:
         word = self._split_latin_digraphs(word)
         for key, value in self._initial_map.items():
             word = word.replace(key, value)
         return word
 
 
-    def _split_latin_digraphs(self, str1):
+    def _split_latin_digraphs(self, str1: str) -> str:
         lowercaseStr = str1.strip().lower()
 
         for digraph in self._digraph_exceptions:
@@ -421,19 +398,19 @@ class SerbCyr:
         return str1
 
 
-    def _word_contains_string(self, word, array):
+    def _word_contains_string(self, word, array) -> bool:
         for array_word in array:
             if array_word in word:
                 return True
         return False
 
-    def _word_is_equal_to(self, word, array):
+    def _word_is_equal_to(self, word, array) -> bool:
         for array_word in array:
             if word == array_word:
                 return True
         return False
 
-    def _word_starts_with(self, word, array):
+    def _word_starts_with(self, word, array) -> bool:
         for array_word in array:
             if word.startswith(array_word):
                 return True
@@ -478,3 +455,52 @@ class SerbCyr:
         regexp = fr"^({excessive_chars})+|({excessive_chars})+$"
 
         return re.sub(regexp, '', word)
+
+
+    # Main method that converts Latin text to Cyrillic
+    def text_to_cyrillic(self, text: str) -> str:
+        if len(text.strip()) == 0:
+            return text
+        words = re.findall(r'\S+|\r\n|\n', text)
+
+        for i in range(len(words)):
+            if words[i] in self.C_LINE_ENDINGS:
+                continue
+            index = self._transliteration_index_of_word_starts_with(
+                words[i], self._whole_foreign_words, "-")
+            if index >= 0:
+                words[i] = words[i][:index] + self._word_to_cyrillic(words[i][index:])
+            else:
+                if not self._looks_like_foreign_word(words[i]):
+                    words[i] = self._word_to_cyrillic(words[i])
+        
+        return self._join(words)
+
+
+    # Converts Cyrillic text to Latin
+    def text_to_latin(self, text: str) -> str:
+        return self.lat_regex.sub(
+            lambda match: self._cyrillic_to_latin[match.group(0)], text)
+
+
+_srbcyr = SerbCyr()
+
+# Aliases for main methods
+
+def txt2cyr(text: str) -> str:
+    return _srbcyr.text_to_cyrillic(text)
+
+def text_to_cyrillic(text: str) -> str:
+    return _srbcyr.text_to_cyrillic(text)
+
+def text_to_cyr(text: str) -> str:
+    return _srbcyr.text_to_cyrillic(text)
+
+def txt2lat(text: str) -> str:
+    return _srbcyr.text_to_latin(text)
+
+def text_to_latin(text: str) -> str:
+    return _srbcyr.text_to_latin(text)
+
+def text_to_lat(text: str) -> str:
+    return _srbcyr.text_to_latin(text)

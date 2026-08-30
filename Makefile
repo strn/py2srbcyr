@@ -1,4 +1,4 @@
-RELEASE = 1.1.5
+RELEASE = 1.1.6
 
 clean:
 	$(info -> Makefile: cleanup previous builds ... )

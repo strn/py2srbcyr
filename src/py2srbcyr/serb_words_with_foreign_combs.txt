@@ -56,7 +56,7 @@ ophrva
 # отходати отходаће
 osamdesettrogod
 othoda 
-othrama
+othram
 othrani
 othrv
 othuknu
@@ -76,6 +76,7 @@ polieti
 polushva
 poluurođen
 poluuspeš
+poluuzdignut
 posthumn
 posttrans
 posttraum
@@ -95,7 +96,8 @@ sbb
 sdss
 # схема
 sedamdesettrogod
-shem 
+shem
+shizof
 shodno
 shola
 shvać
