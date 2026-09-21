@@ -3,9 +3,9 @@
 # vim:ts=4:sw=4:softtabstop=4:smarttab:expandtab
 
 from   datetime  import datetime
-from   lxml      import etree
+from   lxml import etree
 import platform
-import py2srbcyr
+from   py2srbcyr import txt2cyr
 
 
 # Global variables
@@ -52,11 +52,11 @@ def remove_0width_non_joiner(tree, doctype):
 
 # Handles spaces surrounding string properly.
 # They are important in HTML text
-def text_to_cyr(cyr, stri):
+def text_to_cyr(stri):
     ret = ''
     if stri[0] == ' ':
         ret = ' '
-    ret = ret + cyr.text_to_cyrillic(stri)
+    ret = ret + txt2cyr(stri)
     if stri[-1] == ' ':
         ret = ret + ' '
     return ret
@@ -64,7 +64,7 @@ def text_to_cyr(cyr, stri):
 
 # Core function that converts text in HTML elements
 # from Croatian Latin into Serbian Cyrillic script
-def html_lat2cyr(source, cyr, doctype, html_parser):
+def html_lat2cyr(source, doctype, html_parser):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M")
     ret = remove_special_html_chars(source)
     tree = etree.HTML(ret.encode('utf-8'), html_parser)
@@ -84,9 +84,9 @@ def html_lat2cyr(source, cyr, doctype, html_parser):
     for elem in tree.getiterator():
         if elem.tag in HTML_TAGS:
             if elem.text is not None:
-                elem.text = text_to_cyr(cyr, elem.text)
+                elem.text = text_to_cyr(elem.text)
             if elem.tail is not None:
-                elem.tail = text_to_cyr(cyr, elem.tail)
+                elem.tail = text_to_cyr(elem.tail)
         if elem.tag in ADD_IF_MISSING_ATTRS:
             for (attr, values) in ADD_IF_MISSING_ATTRS.items():
                 for val in values:
@@ -120,7 +120,7 @@ def has_translit_comment(tree):
 
 # Core function that converts text in XML elements
 # from Croatian Latin into Serbian Cyrillic script
-def xml_lat2cyr(source, cyr, doctype=None, xml_parser=None):
+def xml_lat2cyr(source, doctype=None, xml_parser=None):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M")
     ret = remove_special_html_chars(source)
     tree = etree.XML(ret.encode('utf-8'), xml_parser)
@@ -139,12 +139,12 @@ def xml_lat2cyr(source, cyr, doctype=None, xml_parser=None):
 
         if tag in EBOOK_TAGS:
             if elem.text is not None:
-                elem.text = cyr.text_to_cyrillic(elem.text)
+                elem.text = txt2cyr(elem.text)
             # Convert some attributes
             if tag == 'meta' and 'name' in elem.attrib.keys():
                 condList = EBOOK_TAGS_ATTRIBUTES['meta']['name']
                 if elem.attrib['name'] in condList:
-                    elem.attrib['content'] = cyr.text_to_cyrillic(elem.attrib['content'])
+                    elem.attrib['content'] = txt2cyr(elem.attrib['content'])
         elif tag == 'language':
             elem.text = 'sr'
     if not has_translit_comment(tree):
@@ -156,26 +156,26 @@ def xml_lat2cyr(source, cyr, doctype=None, xml_parser=None):
     return remove_0width_non_joiner(tree, doctype)
 
 
-def translit_toc(bk, xml_parser, cyr):
+def translit_toc(bk, xml_parser):
     # Transliterate ToC
     ncx_id = bk.gettocid()
     source = bk.readfile(ncx_id)
-    transliterated = xml_lat2cyr(source, cyr, doctype=NCX_DOCTYPE, xml_parser=xml_parser)
+    transliterated = xml_lat2cyr(source, doctype=NCX_DOCTYPE, xml_parser=xml_parser)
     bk.writefile(ncx_id, transliterated)
     print("Пресловљен садржај књиге (toc.ncx)")
 
 
-def translit_metadata(bk, xml_parser, cyr):
+def translit_metadata(bk, xml_parser):
     source = bk.getmetadataxml()
-    transliterated = xml_lat2cyr(source, cyr, xml_parser=xml_parser)
+    transliterated = xml_lat2cyr(source, xml_parser=xml_parser)
     bk.setmetadataxml(transliterated)
     print("Пресловљени метаподаци садржаја (content.opf)")
 
 
-def translit_pages(bk, html_parser, cyr):
+def translit_pages(bk, html_parser):
     for (id, href,) in bk.text_iter():
         source = bk.readfile(id)
-        transliterated = html_lat2cyr(source, cyr, HTML_DOCTYPE, html_parser)
+        transliterated = html_lat2cyr(source, HTML_DOCTYPE, html_parser)
         bk.writefile(id, transliterated)
         print(f"Пресловљена датотека '{href}'")
 
@@ -190,7 +190,6 @@ def show_system_info(launcher_version, epub_version):
     print("*******")
 
 def run(bk):
-    cyr = py2srbcyr.SerbCyr()
     html_parser = etree.HTMLParser(remove_blank_text=True, remove_comments=False, encoding='utf-8')
     xml_parser = etree.XMLParser(remove_blank_text=True, remove_comments=False, resolve_entities=False, encoding='utf-8')
 
@@ -202,9 +201,9 @@ def run(bk):
     show_system_info(bk.launcher_version(), epub_version)
     print("Пресловљавање ЕПУБ-а на српску ћирилицу...")
     start = datetime.now()
-    translit_toc(bk, xml_parser, cyr)
-    translit_metadata(bk, xml_parser, cyr)
-    translit_pages(bk, html_parser, cyr)
+    translit_toc(bk, xml_parser)
+    translit_metadata(bk, xml_parser)
+    translit_pages(bk, html_parser)
     end = datetime.now()
     print(f"Трајање пресловљавања: {(end - start).total_seconds()} секунди")
     return 0

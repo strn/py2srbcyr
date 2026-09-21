@@ -198,83 +198,6 @@ class SerbCyr:
         'ш'  : 'š'
     }
 
-    _foreign_character_combinations = [
-        'q',
-        'w',
-        'x',
-        'y',
-        'é',
-        'á',
-        'à',
-        'ó',
-        'ò',
-        'ü',
-        'ö',
-        'ä',
-        'ê',
-        'è',
-        'ú',
-        'ù',
-        'í',
-        'ì',
-        'ï',
-        'ő',
-        'ű',
-        'ñ',
-        'ş',
-        'ç',
-        'ğ',
-        'ı',
-        'ł',
-        'ý',
-        'ø',
-        'ß',
-        '&',
-        '@',
-        '#',
-        'bb',
-        'cc',
-        'cs',
-        'dd',
-        'dh',
-        'ee',
-        'ff',
-        'gg',
-        'gy',
-        'hh',
-        'ie',
-        'kk',
-        'll',
-        'ly',
-        'nn',
-        'ny',
-        'ph',
-        'pp',
-        'rr',
-        'sh',
-        'ss',
-        'sz',
-        'tt',
-        'uu',
-        'zh',
-        'zs',
-        'zz',
-        'ch',
-        'gh',
-        'th',
-        '\'s',
-        '\'t',
-        '.com',
-        '.edu',
-        '.net',
-        '.info',
-        '.rs',
-        '.org',
-        '©',
-        '®',
-        '™'
-    ]
-
     _triple_character_combinations = [
         "aaa", "ccc", "čč", "ćć", "eee", "fff", "hhh", "mmm",
         "ooo", "ppp", "rrr", "sss", "šš", "ttt", "uuu", "vvv", "zzz", "žž"
@@ -305,6 +228,8 @@ class SerbCyr:
     def __init__(self):
         self.lat_regex = re.compile('|'.join(map(re.escape, self._cyrillic_to_latin)))
         abspath = os.path.abspath(os.path.dirname(__file__))
+        self._foreign_character_combinations = self._read_list_from_file(
+        	os.path.join(abspath, 'foreign_character_combinations.txt'))
         self._serbian_words_with_foreign_character_combinations = \
             self._read_list_from_file(os.path.join(abspath,
             'serb_words_with_foreign_combs.txt'))
@@ -325,7 +250,7 @@ class SerbCyr:
 
     # Read files with word lists
     def _read_list_from_file(self, filepath: str):
-        with open(filepath, 'r') as f:
+        with open(filepath, 'r', encoding="utf-8") as f:
             tmplist = f.read().splitlines()
             for elem in tmplist:
                 if elem.startswith('#') or elem.strip() == '':

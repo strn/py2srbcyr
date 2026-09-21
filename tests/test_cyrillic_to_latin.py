@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from py2srbcyr import SerbCyr
+from py2srbcyr import txt2lat, text_to_lat
 
 
 class TestClass:
 
-    def setup_class(self):
-        self.cir = SerbCyr()
-
     def test_cyr_to_latin(self):
-        assert self.cir.text_to_latin('Љубазни фењерџија чађавог лица хоће да ми покаже штос') == \
+        assert txt2lat('Љубазни фењерџија чађавог лица хоће да ми покаже штос') == \
             'Ljubazni fenjerdžija čađavog lica hoće da mi pokaže štos'
 
     def test_multiline_cyr_to_latin(self):
@@ -19,4 +16,4 @@ class TestClass:
         latt = """Prvi red-
 Drugi red:
 Treći red;"""
-        assert self.cir.text_to_latin(cyrt) == latt
+        assert text_to_lat(cyrt) == latt
